@@ -2,6 +2,8 @@
   "name": "keijiban",
   "private": true,
   "dependencies": {
+    "@babel/plugin-proposal-private-methods": "^7.18.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@fortawesome/fontawesome-free": "^5.13.1",
     "@fortawesome/free-solid-svg-icons": "^5.13.1",
     "@rails/webpacker": "5.4.3",
