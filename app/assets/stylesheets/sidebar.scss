@@ -1,0 +1,24 @@
+/* CSS */
+.nav-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-link a {
+  display: flex;
+  align-items: center;
+  width: auto;
+  margin-right: 100px;
+}
+
+.nav-link a p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nav-link a.delete-link {
+  margin-right: 20px;
+  flex-grow: 0;
+}

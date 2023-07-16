@@ -25,37 +25,39 @@
         <% end %>
       </div>
     </div>
-    <!-- Sidebar Menu -->
-    <nav class="mt-2">
-      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-        <% @working_team.agendas.each do |agenda| %>
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link">
-              <i class="fa fa-circle-o nav-icon"></i>
-              <p>
-                <%= agenda.title %>
-                <i class="right fa fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview" style="display: block;">
-              <% agenda.articles.each do |article| %>
-                <li class="nav-item">
-                  <%= link_to article_path(article), class: 'nav-link' do %>
-                    <p><%= article.title %></p>
-                  <% end %>
-                </li>
+<!-- Sidebar Menu -->
+<nav class="mt-2">
+  <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+    <% @working_team.agendas.each do |agenda| %>
+      <li class="nav-item has-treeview menu-open">
+  <div class="nav-link">
+    <a href="#">
+      <p><%= agenda.title %></p>
+      <i class="right fa fa-angle-left"></i>
+    </a>
+    <%= link_to 'Delete', agenda_path(agenda), method: :delete, data: { confirm: 'Are you sure?' }, class: 'delete-link' %>
+
+  </div>
+
+        <ul class="nav nav-treeview" style="display: block;">
+          <% agenda.articles.each do |article| %>
+            <li class="nav-item">
+              <%= link_to article_path(article), class: 'nav-link' do %>
+                <p><%= article.title %></p>
               <% end %>
-              <li class="nav-item">
-                <%= link_to new_agenda_article_path(agenda), class: 'nav-link' do %>
-                  <p>+ <%= I18n.t('views.messages.create_article') %></p>
-                <% end %>
-              </li>
-            </ul>
+            </li>
+          <% end %>
+          <li class="nav-item">
+            <%= link_to new_agenda_article_path(agenda), class: 'nav-link' do %>
+              <p>+ <%= I18n.t('views.messages.create_article') %></p>
+            <% end %>
           </li>
-        <% end %>
-      </ul>
-    </nav>
-    <!-- /.sidebar-menu -->
+        </ul>
+      </li>
+    <% end %>
+  </ul>
+</nav>
+<!-- /.sidebar-menu -->
   </div>
   <!-- /.sidebar -->
 </aside>
