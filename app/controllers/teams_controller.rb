@@ -1,6 +1,7 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_team, only: %i[show edit update destroy]
+  before_action :ensure_owner, only: [:edit]
 
   def index
     @teams = Team.all
@@ -64,6 +65,13 @@ class TeamsController < ApplicationController
 
   def set_team
     @team = Team.friendly.find(params[:id])
+  end
+
+  def ensure_owner
+    unless @team.owner == current_user
+      flash[:error] = "You are not authorized to edit this team."
+      redirect_to @team
+    end
   end
 
   def team_params
