@@ -31,7 +31,7 @@
               <table class="table">
                 <tr>
                   <td><%= image_tag 'default.jpg', size: '40x40' %></td>
-                  <td><label style="background-color: red"><%= I18n.t('views.messages.leader') %></label>：<%= @team.owner.email %></td>
+                  <td><label style="background-color: red"><%= I18n.t('views.messages.leader') %></label>:<%= @team.owner.email %></td>
                 </tr>
               </table>
               <h5><%= I18n.t('views.messages.team_members2') %></h5>
@@ -41,7 +41,12 @@
                     <tr>
                       <td><%= image_tag 'default.jpg', size: '40x40' %></td>
                       <td><%= assign.user.email %></td>
-                      <td><%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %></td>
+                      <td>
+                      <%= link_to I18n.t('views.button.delete'), team_assign_path(@team, assign), method: :delete, class: 'btn btn-sm btn-danger' %>
+                      <% if current_user == @team.owner %>
+                      <%= link_to I18n.t('views.button.transfer_ownership'), transfer_ownership_team_path(@team, user_id: assign.user.id), method: :put, class: 'btn btn-sm btn-warning' %>
+                      <% end %>
+                      </td>
                     </tr>
                   <% end %>
                 </tbody>
