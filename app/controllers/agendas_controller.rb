@@ -26,7 +26,9 @@ class AgendasController < ApplicationController
   def destroy
     @agenda.destroy
     @agenda.team.users.each do |user|
+      Rails.logger.info "Sending deletion notification email to #{user.email}..."
       NotificationMailer.agenda_deleted(user, @agenda).deliver_later
+      Rails.logger.info "Email sent."
     end
     redirect_to dashboard_url, notice: 'Agenda was successfully destroyed.'
   end
