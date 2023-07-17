@@ -1,6 +1,7 @@
 class TeamsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_team, only: %i[show edit update destroy]
+  before_action :ensure_owner, only: [:edit]
 
   def index
     @teams = Team.all
@@ -47,10 +48,30 @@ class TeamsController < ApplicationController
     @team = current_user.keep_team_id ? Team.find(current_user.keep_team_id) : current_user.teams.first
   end
 
+  def transfer_ownership
+    @team = Team.find_by(name: params[:id])
+    new_owner = User.find(params[:user_id])
+    @team.owner = new_owner
+    if @team.save
+      OwnerChangeMailer.notify_new_owner(new_owner).deliver_now 
+      redirect_to @team, notice: I18n.t('views.messages.transfer_ownership')
+    else
+      flash.now[:error] = I18n.t('views.messages.failed_to_transfer_ownership')
+      render :show
+    end
+  end
+  
   private
 
   def set_team
     @team = Team.friendly.find(params[:id])
+  end
+
+  def ensure_owner
+    unless @team.owner == current_user
+      flash[:error] = "You are not authorized to edit this team."
+      redirect_to @team
+    end
   end
 
   def team_params
