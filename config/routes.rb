@@ -10,6 +10,10 @@ Rails.application.routes.draw do
   resource :user
   
   resources :teams do
+    member do
+      put 'transfer_ownership/:user_id', to: 'teams#transfer_ownership', as: :transfer_ownership
+    end
+
     resources :assigns, only: %w(create destroy)
     resources :agendas, shallow: true do
       resources :articles do
@@ -20,3 +24,4 @@ Rails.application.routes.draw do
 
   mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
 end
+
